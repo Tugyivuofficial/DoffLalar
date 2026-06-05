@@ -1,0 +1,2 @@
+export const tiers=[{name:'Bronze',min:0},{name:'Silver',min:500},{name:'Gold',min:1200},{name:'Diamond',min:2500},{name:'Elite',min:5000}]
+export function tierInfo(points:number){ let cur=tiers[0], next=tiers[1]; for(let i=0;i<tiers.length;i++){ if(points>=tiers[i].min){cur=tiers[i]; next=tiers[i+1]||tiers[i]} } const span=Math.max(1,next.min-cur.min); const pct=cur===next?100:Math.min(100,Math.round(((points-cur.min)/span)*100)); return {cur,next,pct} }

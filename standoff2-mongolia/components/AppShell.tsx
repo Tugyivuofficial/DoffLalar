@@ -1,0 +1,8 @@
+'use client'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { Home, Swords, Trophy, User } from 'lucide-react'
+import { createClient } from '@/lib/supabase-browser'
+import { useEffect } from 'react'
+const nav=[['/home','Home',Home],['/play','Play',Swords],['/ranking','Rank',Trophy],['/profile','Profile',User]] as const
+export default function AppShell({children}:{children:React.ReactNode}){ const path=usePathname(); const router=useRouter(); useEffect(()=>{ const supabase=createClient(); supabase.auth.getUser().then(async({data:{user}})=>{ if(!user){router.replace('/auth');return} await supabase.from('profiles').upsert({id:user.id,username:user.email?.split('@')[0]||'Player'},{onConflict:'id'}) }) },[router]); return <main className="mx-auto min-h-screen max-w-md pb-24 bg-bg"><header className="sticky top-0 z-20 bg-bg/90 backdrop-blur border-b border-white/5 px-4 py-3 flex items-center justify-between"><div><p className="mono text-xs text-red">STANDOFF 2</p><h1 className="text-2xl font-extrabold tracking-wide">MONGOLIA</h1></div><div className="h-10 w-10 rounded-2xl bg-red grid place-items-center font-black">S2</div></header><div className="p-4">{children}</div><nav className="fixed bottom-0 left-1/2 z-30 w-full max-w-md -translate-x-1/2 bg-[#0B0E15]/95 backdrop-blur border-t border-white/10 grid grid-cols-4 px-2 py-2">{nav.map(([href,label,Icon])=><Link key={href} href={href} className={`flex flex-col items-center gap-1 rounded-2xl py-2 ${path.startsWith(href)?'text-red bg-white/5':'text-white/55'}`}><Icon size={21}/><span className="text-xs font-bold">{label}</span></Link>)}</nav></main> }
