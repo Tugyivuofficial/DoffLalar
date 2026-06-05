@@ -1,3 +1,7 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase-server'
-export default async function RootPage(){ const supabase=createClient(); const {data:{user}}=await supabase.auth.getUser(); redirect(user?'/home':'/auth') }
+export default function RootPage() {
+  return (
+    <main>
+      <h1>Standoff 2 Mongolia</h1>
+    </main>
+  )
+}
