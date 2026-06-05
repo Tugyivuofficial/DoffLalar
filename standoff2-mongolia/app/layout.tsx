@@ -1,4 +1,3 @@
-import './globals.css'
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { Barlow_Condensed, Share_Tech_Mono } from 'next/font/google'
